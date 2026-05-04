@@ -1,6 +1,8 @@
 package com.employee.leave.employeeleaveManagement.Controller;
 
+import com.employee.leave.employeeleaveManagement.Dto.LeaveApprovalDto;
 import com.employee.leave.employeeleaveManagement.Dto.LeaveRequestDto;
+import com.employee.leave.employeeleaveManagement.Dto.LeaveApprovalDto;
 import com.employee.leave.employeeleaveManagement.Entity.LeaveRequest;
 import com.employee.leave.employeeleaveManagement.Service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +25,10 @@ public class LeaveController {
     @GetMapping("/all")
     public List<LeaveRequest> getAllLeaves() {
         return service.getAllLeaves();
+    }
+
+    @PostMapping("/action")
+    public LeaveRequest approveOrReject(@RequestBody LeaveApprovalDto dto) {
+        return service.approveOrRejectLeave(dto);
     }
 }

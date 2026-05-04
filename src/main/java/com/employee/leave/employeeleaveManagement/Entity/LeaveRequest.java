@@ -20,6 +20,8 @@ public class LeaveRequest {
     private LocalDate endDate;
     private String reason;
     private String status;
+    private String managerComment;
+
 
     @ManyToOne
     @JoinColumn(name ="employee_id")

@@ -1,6 +1,8 @@
 package com.employee.leave.employeeleaveManagement.Service;
 
+import com.employee.leave.employeeleaveManagement.Dto.LeaveApprovalDto;
 import com.employee.leave.employeeleaveManagement.Dto.LeaveRequestDto;
+import com.employee.leave.employeeleaveManagement.Dto.LeaveApprovalDto;
 import com.employee.leave.employeeleaveManagement.Entity.Employee;
 import com.employee.leave.employeeleaveManagement.Entity.LeaveRequest;
 import com.employee.leave.employeeleaveManagement.Entity.LeaveType;
@@ -22,6 +24,24 @@ public class LeaveService {
 
     @Autowired
     private LeaveRequestRepository leaverepo;
+
+
+    public LeaveRequest approveOrRejectLeave(LeaveApprovalDto dto) {
+
+        LeaveRequest leave = leaverepo.findById(dto.getLeaveId())
+                .orElseThrow(() -> new RuntimeException("Leave not found"));
+
+        if (!(dto.getStatus().equalsIgnoreCase("APPROVED") ||
+                dto.getStatus().equalsIgnoreCase("REJECTED"))) {
+
+            throw new RuntimeException("Invalid status");
+        }
+
+        leave.setStatus(dto.getStatus().toUpperCase());
+        leave.setManagerComment(dto.getManagerComment());
+
+        return leaverepo.save(leave);
+    }
 
     public LeaveRequest applyLeave(LeaveRequestDto dto) {
 
